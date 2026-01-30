@@ -1,22 +1,24 @@
 name: Terraform Deploy
 
 on:
-  # push:
-  #   branches: [ main ]
-   workflow_dispatch:   # ✅ Manual trigger only
-
+  push:
+    branches: [ main ]
+  # workflow_dispatch:   # Optional manual trigger
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
 
+    # 🔐 Require approval before apply
+    environment: production
+
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: eu-north-1 # change if needed
+      AWS_DEFAULT_REGION: eu-north-1
 
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup Terraform
@@ -31,5 +33,6 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -out=tfplan
 
-      - name: Terraform Apply
+      # 👇 This step will ONLY run after manual approval from GitHub UI
+      - name: Terraform Apply (Requires Approval)
         run: terraform apply -auto-approve tfplan
