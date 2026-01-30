@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  terraform-plan:
+  terraform-init/plan:
     runs-on: ubuntu-latest
 
     env:
