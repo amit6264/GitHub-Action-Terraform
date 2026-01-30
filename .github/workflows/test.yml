@@ -1,10 +1,8 @@
 name: Terraform Manual Steps
 
 on:
-  push:
-    branches : [ main ]
-  # workflow_dispatch:
-     inputs:
+  workflow_dispatch:
+    inputs:
       action:
         description: "Select the Terraform step you want to run"
         required: true
